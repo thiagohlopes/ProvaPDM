@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigationView.setOnNavigationItemSelectedListener(this);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.navigationView, new List());
+        ft.replace(R.id.container, new List());
         ft.commit();
     }
 
@@ -33,16 +33,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()) {
             case R.id.listar: {
-                getSupportActionBar().setTitle("listar");
+                getSupportActionBar().setTitle("Nova Finança");
                 Fragment listar = List.newInstance();
                 openFragment(listar);
-                Toast.makeText(getApplicationContext(), "listar", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "listar", Toast.LENGTH_LONG).show();
+                break;
             }
             case R.id.novo: {
-                getSupportActionBar().setTitle("novo");
+                getSupportActionBar().setTitle("Gestão Financeira");
                 Fragment novo = New.newInstance();
                 openFragment(novo);
-                Toast.makeText(getApplicationContext(), "novo", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "novo", Toast.LENGTH_LONG).show();
                 break;
             }
         }

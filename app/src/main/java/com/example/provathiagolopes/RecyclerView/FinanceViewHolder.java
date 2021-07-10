@@ -1,9 +1,11 @@
 package com.example.provathiagolopes.RecyclerView;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +32,8 @@ public class FinanceViewHolder extends RecyclerView.ViewHolder {
         this.finance = finance;
         this.tv_name.setText(this.finance.getName());
         this.tv_price.setText(Double.toString(this.finance.getPrice()));
-        if (finance.getType().toString() == "Crédito"){
+//        Log.e(finance.getType().toString(), finance.getType().toString());
+        if (finance.getType().toString().equals("Crédito")){
             iv_color.setBackgroundColor(activity.getResources().getColor(android.R.color.holo_green_light));
         }
     }

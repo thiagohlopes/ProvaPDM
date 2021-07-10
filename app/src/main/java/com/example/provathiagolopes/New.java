@@ -2,6 +2,7 @@ package com.example.provathiagolopes;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,9 @@ public class New extends Fragment implements AdapterView.OnItemClickListener{
             public void onClick(View v) {
                 Float price = Float.parseFloat(etxt_price.getText().toString());
                 String choice = spinner.getSelectedItem().toString();
+                if(choice.equals("Débito")){
+                    price = price * -1;
+                }
                 Finance finance = new Finance(price, etxt_name.getText().toString(),choice);
                 DAOFinance.insertFinance(activity, finance);
                 String msg = "Salvo com Sucesso";

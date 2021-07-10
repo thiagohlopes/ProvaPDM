@@ -54,7 +54,7 @@ public class DAOFinance {
             String name = cursor.getString(cursor.getColumnIndex(DBSchema.Finance.NAME));
             Finance finance = new Finance( id,  price,  name,  type);
             pizzas.add(finance);
-            Log.e(finance.toString(),"<<<<<<<<<<<<<<<<<<<<");
+//            Log.e(finance.toString(),"<<<<<<<<<<<<<<<<<<<<");
         }
 
         cursor.close();
