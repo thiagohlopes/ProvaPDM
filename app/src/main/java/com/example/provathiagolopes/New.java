@@ -16,13 +16,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.provathiagolopes.RecyclerView.FinanceAdapter;
 import com.example.provathiagolopes.SQLite.DAOFinance;
 import com.example.provathiagolopes.SQLite.Finance;
+import com.example.provathiagolopes.Singleton.DAOSingleton;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class New extends Fragment implements AdapterView.OnItemClickListener{
@@ -31,6 +35,7 @@ public class New extends Fragment implements AdapterView.OnItemClickListener{
     TextView etxt_name;
     TextView etxt_price;
     private Activity activity;
+    NumberFormat formatter = new DecimalFormat("#0.00");
 
     public static New newInstance() {
         return new New();
@@ -62,15 +67,26 @@ public class New extends Fragment implements AdapterView.OnItemClickListener{
         this.btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Float price = Float.parseFloat(etxt_price.getText().toString());
+                String priceStr = etxt_price.getText().toString();
                 String choice = spinner.getSelectedItem().toString();
-                if(choice.equals("Débito")){
-                    price = price * -1;
+                String nome = etxt_name.getText().toString();
+                if(priceStr.isEmpty() || nome.isEmpty()){
+                    String msg = "Tente novamente, encontramos campos vazio!";
+                    Toast.makeText(view.getContext(), msg, Toast.LENGTH_LONG).show();
+                    return;
+                }else {
+                    Double price = Double.parseDouble(priceStr);
+                    if(choice.equals("Débito")){
+                        price = price * -1;
+                    }
+                    Finance finance = new Finance(price, nome,choice);
+                    DAOFinance.insertFinance(activity, finance);
+                    String msg = "Cadastrado com Sucesso";
+                    Toast.makeText(view.getContext(), msg, Toast.LENGTH_LONG).show();
+                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.container, new List());
+                    ft.commit();
                 }
-                Finance finance = new Finance(price, etxt_name.getText().toString(),choice);
-                DAOFinance.insertFinance(activity, finance);
-                String msg = "Salvo com Sucesso";
-                Toast.makeText(view.getContext(), msg, Toast.LENGTH_LONG).show();
 //                activity.finish();
             }
         });

@@ -3,20 +3,26 @@ package com.example.provathiagolopes.SQLite;
 public class Finance {
 
     private long id;
-    private float price;
+    private Double price;
     private String name;
     private String type;
 
-    public Finance(long id, float price, String name, String type) {
+    public Finance(long id, Double price, String name, String type) {
         this.id = id;
         this.price = price;
         this.name = name;
         this.type = type;
     }
-    public Finance(float price, String name, String type) {
+
+    public Finance(Double price, String name, String type) {
         this.price = price;
         this.name = name;
         this.type = type;
+    }
+
+    public Finance(Double price, String name) {
+        this.price = price;
+        this.name = name;
     }
 
     public long getId() {
@@ -27,11 +33,11 @@ public class Finance {
         this.id = id;
     }
 
-    public float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

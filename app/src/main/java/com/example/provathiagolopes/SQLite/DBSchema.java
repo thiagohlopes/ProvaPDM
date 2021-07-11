@@ -13,7 +13,7 @@ public class DBSchema {
         public static final String getCreationQuery() {
             return "CREATE TABLE "+TABLENAME+" ("+
                     _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    PRICE + " REAL, "+
+                    PRICE + " DOUBLE, "+
                     NAME + " STRING, "+
                     TYPE + " BOOLEAN" +
                     ")";

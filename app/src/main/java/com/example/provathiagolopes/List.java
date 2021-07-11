@@ -29,6 +29,7 @@ import com.example.provathiagolopes.RecyclerView.FinanceAdapter;
 import com.example.provathiagolopes.SQLite.DAOFinance;
 import com.example.provathiagolopes.SQLite.DBHelper;
 import com.example.provathiagolopes.SQLite.Finance;
+import com.example.provathiagolopes.Singleton.DAOSingleton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.opencsv.CSVWriter;
 
@@ -44,6 +45,7 @@ public class List extends Fragment {
     private ArrayList<Finance> finances;
     private double total = 0.0;
     private TextView tv_total;
+    private TextView tv_noData;
     private FloatingActionButton fbtn_relatory;
 
     public static List newInstance() {
@@ -63,9 +65,15 @@ public class List extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.rv_finance = view.findViewById(R.id.rv_finance);
         this.tv_total = view.findViewById(R.id.tv_total);
+        this.tv_noData = view.findViewById(R.id.tv_noData);
         this.fbtn_relatory = view.findViewById(R.id.fbtn_relatory);
         finances= DAOFinance.getAllPizzas(getContext());
-        this.total = 0;
+        this.total = 0.0;
+        if(finances.isEmpty()){
+            fbtn_relatory.setVisibility(View.GONE);
+        }else{
+            tv_noData.setVisibility(View.GONE);
+        }
         for(int i=0;i<finances.size(); i++){
             total += finances.get(i).getPrice();
         }
@@ -74,7 +82,7 @@ public class List extends Fragment {
         this.rv_finance.setHasFixedSize(true);
         this.financeAdapter = new FinanceAdapter(finances, getActivity());
         this.rv_finance.setAdapter(this.financeAdapter);
-        this.tv_total.setText(Double.toString(total));
+        this.tv_total.setText(String.valueOf(total));
         this.fbtn_relatory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +95,11 @@ public class List extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 exportDB();
+                                //só pra confirmar salvando em singleton
+                                for(int i=0;i<finances.size(); i++){
+
+                                    DAOSingleton.getINSTANCE().addFinance(view.getContext(), finances.get(i));
+                                }
                                 String msg = "Relatorio foi salvo com Sucesso";
                                 Toast.makeText(view.getContext(), msg, Toast.LENGTH_LONG).show();
                                 dialog.cancel();
@@ -96,6 +109,8 @@ public class List extends Fragment {
                 builder1.setNegativeButton(
                         "NÃO",
                         new DialogInterface.OnClickListener() {
+//                            String msgNeg = "Tudo bem então!";
+//                            Toast.makeText(view.getContext(), msgNeg, Toast.LENGTH_LONG).show();
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }

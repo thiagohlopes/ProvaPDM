@@ -49,7 +49,7 @@ public class DAOFinance {
 
         while(cursor.moveToNext()) {
             long id = cursor.getLong(cursor.getColumnIndex(DBSchema.Finance._ID));
-            float price = cursor.getFloat(cursor.getColumnIndex(DBSchema.Finance.PRICE));
+            Double price = cursor.getDouble(cursor.getColumnIndex(DBSchema.Finance.PRICE));
             String type = cursor.getString(cursor.getColumnIndex(DBSchema.Finance.TYPE));
             String name = cursor.getString(cursor.getColumnIndex(DBSchema.Finance.NAME));
             Finance finance = new Finance( id,  price,  name,  type);
